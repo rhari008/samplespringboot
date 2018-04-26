@@ -1,0 +1,28 @@
+---
+applications:
+- name: sampleapplication
+  host: sampleapplication
+  instances: 1
+  memory: 1G
+  path: target/sample-0.0.1.jar
+  buildpack: sap_java_buildpack
+  env:
+    SAP_JWT_TRUST_ACL: "[{\"clientid\":\"*\",\"identityzone\":\"*\"}]"
+  services:
+    - samplexsuaa
+
+- name: ar-sample-app
+  host: ar-sample-app
+  path: approuter
+  buildpack: nodejs_buildpack
+  memory: 256M
+  env:
+    destinations: >
+      [
+        {"name":"sampledestination",
+         "url":"https://sampleapplication.cfapps.eu10.hana.ondemand.com",
+         "forwardAuthToken": true}
+      ]
+    TENANT_HOST_PATTERN: "^(.*)-ar-sample-app.cfapps.eu10.hana.ondemand.com"
+  services:
+    - samplexsuaa
