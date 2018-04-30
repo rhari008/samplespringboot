@@ -12,7 +12,7 @@ applications:
     - samplexsuaa
 
 - name: ar-sample-app
-  host: ar-sample-app
+  host: cppmindia-ar-sample-app
   path: approuter
   buildpack: nodejs_buildpack
   memory: 256M

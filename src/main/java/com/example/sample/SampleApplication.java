@@ -43,7 +43,7 @@ public class SampleApplication {
         return vcap().map(jsonObject -> {
             DefaultOAuth2ClientContext defaultOAuth2ClientContext = new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest());
             OAuth2RestTemplate template = new OAuth2RestTemplate(fullAccessesDetails(jsonObject), defaultOAuth2ClientContext);
-            System.out.println("-------------- This line is reached ----------------1"+ jsonObject);
+    
             template.setInterceptors(Collections.singletonList((request, body, execution) -> {
                 request.getHeaders().setContentType(MediaType.APPLICATION_JSON);                
                 return execution.execute(request, body);
@@ -56,18 +56,18 @@ public class SampleApplication {
 	}
 
     private OAuth2ProtectedResourceDetails fullAccessesDetails(Object document) {
-        String host = "https://cppmindia.authentication.eu10.hana.ondemand.com"; //Change the URL to match
+        String host = JsonPath.read(document, "$.xsuaa[0].credentials.url");//"https://cppmindia.authentication.eu10.hana.ondemand.com"; //Change the URL to match
         //String clientId = JsonPath.read(document, "$.metering[0].credentials.client_id");
-        String clientId = "sb-sampleapplication!t216";//JsonPath.read(document, "$.credentials.client_id");
+        String clientId = JsonPath.read(document, "$.xsuaa[0].credentials.clientid");//"sb-sampleapplication!t2160";//JsonPath.read(document, "$.credentials.client_id");
         //String secret = JsonPath.read(document, "$.metering[0].credentials.client_secret");
-        String secret = "7zAN+t0Hzz8bp+6uKh3xQnJuYVU=";//JsonPath.read(document, "$.credentials.client_secret");
-        String tokenUrl = host + "/oauth/token?grant_type=client_credentials";
-
+        String secret = JsonPath.read(document, "$.xsuaa[0].credentials.clientsecret");//"7zAN+t0Hzz8bp+6uKh3xQnJuYVU=";//JsonPath.read(document, "$.credentials.client_secret");
+        String tokenUrl = host + "/oauth/token";
+        
         ClientCredentialsResourceDetails resource = new ClientCredentialsResourceDetails();
         resource.setAccessTokenUri(tokenUrl);
         resource.setClientId(clientId);
         resource.setClientSecret(secret);
-        System.out.println("This line is reached ----------------");
+        resource.setGrantType("client_credentials");
         return resource;
     }
 }

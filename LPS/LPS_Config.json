@@ -1,0 +1,9 @@
+{
+	"appId" : "sampleapplication!t2160",
+	"appName" : "ar-sample-app", 
+	"appUrls": { 
+		"getDependencies" : "https://sampleapplication.cfapps.eu10.hana.ondemand.com/callback/v1.0/dependencies",
+	    "onSubscription" : "https://sampleapplication.cfapps.eu10.hana.ondemand.com/callback/v1.0/tenants/{tenantId}" 
+	},
+	"providerTenantId" : "6c44453f-691e-461d-9285-e18f305a53da"
+}

@@ -44,6 +44,13 @@ Optional<OAuth2RestOperations> restTemplate;
 @Qualifier(value = "vcap")
 Optional<Object> vcap;
 
+@GetMapping(path = "/", produces = { "text/html"})
+public String init(){
+	Optional<UserInfo> userInfo = obtainUserInfo();
+	userInfo.ifPresent(this::reportUsageForUser);
+	return buildHelloMessage(userInfo);
+}
+
 @GetMapping(path = "/usage", produces = { "text/html" })
 public String sayHello() {
 	Optional<UserInfo> userInfo = obtainUserInfo();
