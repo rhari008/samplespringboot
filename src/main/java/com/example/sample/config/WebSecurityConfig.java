@@ -44,7 +44,6 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter{
 				JSONObject vcap_object = new JSONObject(vcap);
 				JSONArray xs = vcap_object.getJSONArray("xsuaa");
 				xsappname = JsonPath.read(vcap, "$.xsuaa[0].credentials.xsappname");// xs.getJSONObject(0).getJSONObject("credentials").getString("xsappname");
-				System.out.println("XSAPP NAME IS - ------------- "+xsappname);
 				// User scope, used to access app
 				String userScope = xsappname + ".User";
 
